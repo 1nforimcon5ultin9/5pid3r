@@ -5,6 +5,7 @@
 #
 #     http://doc.scrapy.org/en/latest/topics/settings.html
 #
+import time
 
 BOT_NAME = 'spider'
 
@@ -15,7 +16,7 @@ CACHE_STATUS_ENABLED = True
 CACHE_DOWNLOAD_ENABLED = True
 CONTENT_STORE="./crawed_pages"
 WEBSERVICE_ENABLED=False
-LOG_FILE="./log/scrapy.log"
+LOG_FILE="./log/scrapy_%s.log" % time.strftime('%Y_%m_%d_%H_%M_%s',time.localtime(time.time()))
 
 #SCHEDULER = "spider.scrapy_redis.scheduler.Scheduler"
 SCHEDULER_PERSIST = False

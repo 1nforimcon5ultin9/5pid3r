@@ -24,16 +24,16 @@ class CustomFilesPipeline(FilesPipeline):
         if not request.url==None:
             o = urlparse(request.url)
             base_url=o.netloc
-
+        domain = info.spider.domain
         if self.settings.get("ENABLE_POST"):
             post_url = self.settings.get("POST_URL")
             post_json(post_url, data)
         if self.settings.get("PERSIST_FILE"):
             buf = StringIO(response.body)
-            self.store.persist_file(base_url+"/"+path, buf, info)
+            self.store.persist_file(domain+"/"+base_url+"/"+path, buf, info)
         if self.settings.get("PERSIST_TEXT")==True:
             file_path = hashlib.sha1(response.url).hexdigest()
-            persist_text( self.text_store_uri,base_url+"/"+file_path, data)
+            persist_text( self.text_store_uri,domain+"/"+base_url+"/"+file_path, data)
         checksum = md5sum(buf)
         return checksum
 

@@ -1,5 +1,7 @@
+import os
 import re
 import sys
+import time
 import urllib2
 import lxml.html
 import lxml.etree
@@ -25,6 +27,14 @@ class DefaultSpider(BaseSpider):
         name="default"
 
         def __init__(self, name=None, url="", domain="", author="inforimconsulting.com", **kwargs):
+            LOG_FILE= "./log/"+domain+"/scrapy_%s.log" % time.strftime('%Y_%m_%d_%H_%M_%s',time.localtime(time.time()))
+            dirname = os.path.dirname(LOG_FILE);
+            if not os.path.exists(dirname):
+                os.makedirs(dirname)
+            log.log.defaultObserver = log.log.DefaultObserver()
+            log.log.defaultObserver.start()
+            log.started = False
+            log.start(LOG_FILE)
             super(BaseSpider, self).__init__(name, **kwargs)
             print "start crawling "+ url+ " at domain " + domain
             self.allowed_domains = [domain]
@@ -36,6 +46,7 @@ class DefaultSpider(BaseSpider):
             #self.start_urls = ["http://www.zjcourt.cn/webfiles/web/file/20072012sbdfl.pdf"]
             #self.start_urls = ["http://www.zjcourt.cn/webfiles/web/file/2013/09/20130902103434549.ppt"]
             #self.start_urls = ["http://www.zjcourt.cn/webfiles/web/file/2014/01/20140124164537363.xls"]
+            self.domain = domain
             self.close_down = False
             self.r = re.compile(WEB_REGEX)
             self.counter=0

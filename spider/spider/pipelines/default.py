@@ -17,6 +17,7 @@ class SpiderPipeline(object):
         pass
 
     def process_item(self, item, spider):
+        domain = spider.domain
         data = convert_to_json(item["author"],item["url"], item["body"],item["title"], self.settings.get("IS_ENCODE"))
         if self.settings.get("ENABLE_POST")==True:
             try:
@@ -34,7 +35,7 @@ class SpiderPipeline(object):
                     else:
                         base_url=""
                 file_path = hashlib.sha1(item["url"]).hexdigest()
-                persist_text(self.store_uri, base_url+"/"+file_path, data)
+                persist_text(self.store_uri,domain+"/"+ base_url+"/"+file_path, data)
         return item
 
     @classmethod

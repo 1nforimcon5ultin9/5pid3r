@@ -24,7 +24,7 @@ def tika_parse_text(buf,server_url,content_type=None):
     res = urllib2.urlopen(req)
     return res.read()
 
-def convert_to_json(author,url, doc, title, is_encode=False):
+def convert_to_json(author,url, doc, title, time, timemills, is_encode=False):
     data={}
     if not url==None:
         data["url"]=url
@@ -32,6 +32,10 @@ def convert_to_json(author,url, doc, title, is_encode=False):
         data["author"]=author
     if not title==None:
         data["title"] = title
+    if not time==None:
+        data["crawled_time"] = time
+    if not timemills==None:
+        data["crawled_timemills"]=timemills
     if not doc==None:
         data["doc"]=filter(lambda x:x not in ["\n","\t","\r"],doc)
     if is_encode==True:

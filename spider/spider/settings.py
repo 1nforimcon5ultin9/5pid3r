@@ -48,5 +48,5 @@ ENABLE_POST=True
 #if base64encode data
 IS_ENCODE=False
 
-#REDIS_HOST = 'localhost'
-#REDIS_PORT = 6379
+REDIS_HOST = 'localhost'
+REDIS_PORT = 6379

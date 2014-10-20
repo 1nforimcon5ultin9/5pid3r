@@ -64,6 +64,8 @@ class DefaultSpider(BaseSpider):
                 i["file_urls"] = [response.url]
                 i["author"] = self.author
                 i["title"] = ""
+                i["crawled_time"]=time.strftime('%Y/%m/%d %H:%M:%S',time.localtime(time.time()))
+                i["crawled_timemills"]=time.time()
             else:
                 i = self.parse_content(response)
                 links = self.parse_link(response) 
@@ -99,6 +101,8 @@ class DefaultSpider(BaseSpider):
             i["meta_key"] = meta_key
             i["meta_description"] = meta_description
             i["id"] = _uuid    
+            i["crawled_time"]=time.strftime('%Y/%m/%d %H:%M:%S',time.localtime(time.time()))
+            i["crawled_timemills"]=time.time()
             i["url"]= response.url
             i["file_urls"]=set()
             base_url = get_base_url(response)

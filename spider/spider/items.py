@@ -18,5 +18,6 @@ class SpiderItem(Item):
     files = Field()
     crawled_time=Field()
     crawled_timemills=Field()
+    update_time = Field()
     id = Field()
     pass

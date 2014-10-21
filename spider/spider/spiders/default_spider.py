@@ -84,6 +84,11 @@ class DefaultSpider(BaseSpider):
             meta_key = ""
             meta_description = ""
             title = hxs.select("//head/title/text()").extract()
+            update_time = hxs.select("//head/meta[@http-equiv='date']/@content").extract()
+            if len(update_time)>0:
+                i["update_time"] = update_time[0]
+            else:
+                i["update_time"] = ""
             body = ""
             root = lxml.html.fromstring(response.body)
             lxml.etree.strip_elements(root, lxml.etree.Comment, "script","style","head","canvas","embed","object")

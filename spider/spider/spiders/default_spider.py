@@ -91,7 +91,7 @@ class DefaultSpider(BaseSpider):
                 i["update_time"] = ""
             body = ""
             root = lxml.html.fromstring(response.body)
-            lxml.etree.strip_elements(root, lxml.etree.Comment, "script","style","head","canvas","embed","object")
+            lxml.etree.strip_elements(root, lxml.etree.Comment, "script","style","head","canvas","embed","object","select","option","input","textarea","svg")
             body = lxml.html.tostring(root, pretty_print=True,method="text", encoding='utf-8')
             i["body"]=body
             if len(title)>0:

@@ -17,6 +17,7 @@ from scrapy.exceptions import CloseSpider
 from spider.items import SpiderItem
 from scrapy.utils.response import get_base_url
 from spider.rule.ban import BANURL,BANTOKEN
+import chardet
 
 reload(sys)
 sys.setdefaultencoding( "utf-8" )
@@ -90,9 +91,14 @@ class DefaultSpider(BaseSpider):
             else:
                 i["update_time"] = ""
             body = ""
-            root = lxml.html.fromstring(response.body)
-            lxml.etree.strip_elements(root, lxml.etree.Comment, "script","style","head","canvas","embed","object","select","option","input","textarea","svg")
-            body = lxml.html.tostring(root, pretty_print=True,method="text", encoding='utf-8')
+            if not response.body == None:
+                html_content = str(response.body)
+                charset  = chardet.detect(html_content)["encoding"];
+                if not str.upper(charset).startswith("UTF"):
+                    html_content = html_content.decode(charset,"ignore")
+                root = lxml.html.fromstring(html_content)
+                lxml.etree.strip_elements(root, lxml.etree.Comment, "script","style","head","canvas","embed","object","select","option","input","textarea","svg")
+                body = lxml.html.tostring(root, pretty_print=True,method="text", encoding='utf-8')
             i["body"]=body
             if len(title)>0:
                 i["title"]= title[0]

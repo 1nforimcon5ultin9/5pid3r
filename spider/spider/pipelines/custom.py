@@ -20,8 +20,15 @@ class CustomFilesPipeline(FilesPipeline):
                     path = path+ext
                     content_type=self.settings.get("FILE_RAW_TYPE").get(ext[1:])
         ret = tika_parse_text(response.body, self.settings.get("TIKA_SERVER"),content_type if not content_type=="bin;" else None)
-        data = convert_to_json("", response.url, ret, "", time.strftime('%Y/%m/%d %H:%M:%S',time.localtime(time.time())), time.time(), "" , self.settings.get("IS_ENCODE"))
-        base_url = ""
+        
+        s = response.url
+        pos = s.rfind("/")
+        filename = ""
+        if len(s)>pos+1:
+            filename = s[pos+1:]
+        data = convert_to_json("", response.url, ret, filename, time.strftime('%Y/%m/%d %H:%M:%S',time.localtime(time.time())), time.time(), "" , self.settings.get("IS_ENCODE"))
+		
+		base_url = ""
         if not request.url==None:
             o = urlparse(request.url)
             base_url=o.netloc
